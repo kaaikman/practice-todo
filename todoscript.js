@@ -3,7 +3,20 @@
 var todoList = {
   todos: [],
   displayTodos: function() {
-    console.log('Todos: ', this.todos);
+    if(this.todos.length === 0) {
+      console.log('Your Todo List is empty!')
+    }
+    else {
+      for(i=0; i<this.todos.length; i++) {
+        console.log(this.todos[i].todoText);
+        if(this.todos[i].todoIsComplete === false) {
+          console.log('Incomplete');
+        }
+        else if(this.todos[i].todoIsComplete === true) {
+          console.log('Complete');
+        }
+      }
+    }
   },
   addTodo: function(newTodo) {
     this.todos.push({
