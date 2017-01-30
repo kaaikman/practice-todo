@@ -2,6 +2,12 @@
 
 var todoList = {
   todos: [],
+  removeButtons: function() {
+    var removeButton = document.createElement('button');
+    removeButton.textContent = 'X';
+    removeButton.className = 'removeButton';
+    return removeButton;
+  },
   displayTodos: function() {
     this.listOfTodos = document.getElementById('listOfTodos');
     this.listOfTodos.innerHTML = '';
@@ -10,9 +16,11 @@ var todoList = {
       document.getElementById('todoList').innerHTML = 'Your Todo List is empty!';
     }
     else {
+      document.getElementById('todoList').innerHTML = '';
       for (i=0; i<this.todos.length; i++) {
         // document.getElementById('todoList').innerHTML = this.todos[i].todoText;
         var addingTodo = document.createElement('li');
+        addingTodo.id = i;
         // addingTodo.textContent = this.todos[i].todoText;
         if (this.todos[i].todoIsComplete === false) {
           addingTodo.textContent = '(Incomplete) ' + this.todos[i].todoText;
@@ -20,9 +28,18 @@ var todoList = {
         else if (this.todos[i].todoIsComplete === true) {
           addingTodo.textContent = '(Complete) ' + this.todos[i].todoText;
         }
+        addingTodo.appendChild(this.removeButtons());
         this.listOfTodos.appendChild(addingTodo);
       }
     }
+    // document.getElementById('listOfTodos').addEventListener('click', function() {
+    //   if (event.target.className === 'removeButton') {
+    //     console.log(event.target.parentNode.id);
+    //     console.log(todoList.todos.length);
+    //     todoList.removeTodo(parseInt(event.target.parentNode.id));
+    //     console.log(todoList.todos.length);
+    //   }
+    // });
   },
   addTodo: function(newTodo) {
     this.todos.push({
@@ -32,6 +49,7 @@ var todoList = {
   },
   removeTodo: function(todoIndex) {
     this.todos.splice(todoIndex, 1);
+    this.displayTodos();
   },
   editTodo: function(todoIndex, todoEdit) {
     this.todos[todoIndex].todoText = todoEdit;
@@ -76,3 +94,10 @@ var btnAddTodo = document.getElementById('btnAddTodo').addEventListener('click',
   todoToAdd.value = '';
   todoList.displayTodos();
 });
+
+var removing = document.getElementById('listOfTodos');
+  removing.addEventListener('click', function() {
+    if (event.target.className === 'removeButton') {
+      todoList.removeTodo(parseInt(event.target.parentNode.id));
+    }
+  });
